@@ -13,7 +13,7 @@ class List extends React.Component {
       <ul>
       {
         this.props.cows.map((cow, index) => (
-           <li> <ListEntry name={cow.name} description={cow.description} key={cow.name} click={this.props.click} /> </li>
+           <li> <ListEntry name={cow.name} description={cow.description} key={cow.name} id={cow.id} click={this.props.click} /> </li>
         ))
       }
     </ul>

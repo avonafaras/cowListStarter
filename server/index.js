@@ -1,5 +1,5 @@
 const express = require('express');
-let db = require('../database/mongo');
+let db = require('../database/mysql');
 
 const readline = require('readline').createInterface({
   input: process.stdin,
