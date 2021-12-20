@@ -31,12 +31,13 @@ class App extends React.Component {
       name: cowName,
       description: description
     })
-    
-      .then((response) => {
-        this.setState({
-          cows: response.data
-        })
-        console.log(this.state.cows);
+      .then(() => {
+        return axios.get('/api/cows')
+          .then((response) => (
+            this.setState({
+              cows: response.data,
+            })
+          ))
       })
       .catch((err) => console.log(err))
   }
