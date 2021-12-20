@@ -1,7 +1,22 @@
 import React from 'react';
 
-const ListEntry = (props) => (
-  <span>{props.name}</span>
-)
+class ListEntry extends React.Component {
+  constructor(props){
+    super(props);
+
+    this.ClickTheCow = this.ClickTheCow.bind(this);
+
+  }
+
+  ClickTheCow() {
+    this.props.click(this.props);
+  }
+
+  render() {
+    return (
+      <span onClick={this.ClickTheCow}> {this.props.name} </span>
+    )
+  }
+}
 
 export default ListEntry;

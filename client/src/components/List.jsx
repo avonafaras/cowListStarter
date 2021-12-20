@@ -2,14 +2,23 @@ import React from 'react';
 import ListEntry from './ListEntry.jsx'
 
 
-const List = ({ cows }) => (
-  <ul>
-    {
-      cows.map((cow, index) => (
-         <li> <ListEntry name={cow.name} key={cow.name} /> </li>
-      ))
-    }
-  </ul>
-)
+class List extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+
+  render() {
+    return(
+      <ul>
+      {
+        this.props.cows.map((cow, index) => (
+           <li> <ListEntry name={cow.name} description={cow.description} key={cow.name} click={this.props.click} /> </li>
+        ))
+      }
+    </ul>
+    )
+  }
+}
 
 export default List;
