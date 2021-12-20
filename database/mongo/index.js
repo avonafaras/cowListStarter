@@ -7,11 +7,8 @@ mongoose.connect('mongodb://localhost:27017/cowList', (err)=>{
   }
   console.log('connected to mongo')
 });
-//unique!!!!!!!!
-var currentId = 0;
 
 const cowSchema = new mongoose.Schema({
-  id: {type: Number, unique: true},
   name: String,
   description: String
 })
@@ -19,9 +16,7 @@ const cowSchema = new mongoose.Schema({
 const Cow = mongoose.model('Cow', cowSchema);
 
 let save = (cowData) => {
-  currentId = currentId+ 1;
   let newCow = new Cow({
-    id: currentId,
     name: cowData.name,
     description: cowData.description
   })
@@ -29,8 +24,34 @@ let save = (cowData) => {
 }
 
 let getAll = () => {
-  return Cow.find({}).exec();
+  return Cow.find({}).exec()
+  .then((allCows) => {
+    const convertedIdCows = allCows.map(cow => {
+      const result = {};
+      result.id = cow._id.toString()
+      result.name = cow.name
+      result.description = cow.description
+
+      return result;
+    })
+    return convertedIdCows
+  })
+}
+
+let deleteByid = (id) => {
+  console.log("Id to delete: ", id)
+  return Cow.deleteOne({_id: id})
+}
+
+let updateById = (id, dataToUpdate) => {
+  console.log("Data to update: ", dataToUpdate)
+  return Cow.updateOne({_id: id}, {
+    name: dataToUpdate.name,
+    description: dataToUpdate.description
+  })
 }
 
 module.exports.save = save ;
 module.exports.getAll = getAll;
+module.exports.deleteByid = deleteByid;
+module.exports.updateById = updateById;

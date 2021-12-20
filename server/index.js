@@ -15,21 +15,59 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(express.json());
 
 app.post('/api/cows', (req, res) => {
+  console.log("received cow: ", req.body)
   db.save(req.body)
   .then((createdCow) => {
     res.status(201).send(createdCow)
-    console.log('Post responded with new object')
+
   })
-  .catch((err) => res.status(500).send(err))
+  .catch((err) => {
+    res.status(500).send(err)
+    console.log(err)
+  })
 
 })
 
 app.get('/api/cows', (req, res) => {
   db.getAll()
   .then((allCows) => {
+    console.log("responding with cows:", allCows)
     res.status(200).send(allCows)
   })
-  .catch((err) => res.status(500).send(err));
+  .catch(err => {
+    console.log(err);
+    res.status(500).send(err);
+  })
+})
+
+app.delete('/api/cows/:id', (req, res) => {
+  var id = req.params.id;
+  db.deleteByid(id)
+  .then(() => {
+    res.status(204).send()
+    console.log('Data deleted');
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).send(err);
+  })
+})
+
+
+
+app.put('/api/cows/:id', (req, res) => {
+  console.log('Put request: ', req)
+  var id = req.params.id;
+
+  db.updateById(id, req.body)
+  .then(() => {
+    res.status(200).send()
+    console.log('Data updated')
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).send(err);
+  })
 })
 
 
